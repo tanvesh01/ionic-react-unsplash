@@ -15,13 +15,15 @@
     "@types/react-dom": "^16.9.4",
     "@types/react-router": "^5.1.4",
     "@types/react-router-dom": "^5.1.3",
+    "axios": "^0.20.0",
     "ionicons": "^5.0.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "typescript": "3.8.3"
+    "typescript": "3.8.3",
+    "unsplash-js": "^6.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
