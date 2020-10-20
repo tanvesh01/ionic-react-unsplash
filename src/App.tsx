@@ -2,21 +2,14 @@ import React, { useState } from "react";
 import {
     IonApp,
     IonContent,
-    IonItem,
-    IonLabel,
-    IonInput,
     IonGrid,
     IonRow,
     IonCol,
     IonButton,
     IonIcon,
-    IonList,
-    IonCard,
-    IonCardHeader,
-    IonCardContent,
-    IonCardSubtitle
 } from "@ionic/react";
-import { alertOutline } from "ionicons/icons";
+import { arrowBackOutline, arrowForwardOutline } from "ionicons/icons";
+import "./App.css";
 // @ts-ignore
 import Unsplash, { toJson } from "unsplash-js";
 /* Core CSS required for Ionic components to work properly */
@@ -37,55 +30,101 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-    let tasks: Array<String> = ["Tanvesh"];
-
 const App: React.FC = () => {
-    const [text, setText] = useState<number>();
     const [url, setUrl] = useState<Array<any>>();
+    const [count, setCount] = useState<number>(1);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const unsplash = new Unsplash({
         accessKey: "JIQRCSRMQCe0JISYi1KtI0uDJqg0MCAGnC6w5C78Co0",
     });
-    let count;
-    const getImages = () =>{
-        // unsplash.photos.getRandomPhoto({ count: text }).then(toJson).then((json :any) =>{
-        //     console.log(json);
-        //     setUrl(json);
-        //     // console.log(json.urls.thumb)
-        // })
-        unsplash.collections.getCollectionPhotos(5020650, 1 , 10, "latest")
+    const getImages = (i: number) => {
+        setIsLoading(true);
+        if (i === 1) {
+            if (count === 11) {
+                setCount(1);
+            } else {
+                setCount(count + 1);
+            }
+            console.log(count);
+        } else {
+            if (count === 1) {
+                setCount(11);
+            } else {
+                setCount(count - 1);
+            }
+        }
+        unsplash.collections
+            .getCollectionPhotos(5020650, count, 10, "latest")
             .then(toJson)
-            .then((json : any) => {
-                console.log(json)
-                setUrl(json)
+            .then((json: any) => {
+                console.log(json);
+                setUrl(json);
+                setIsLoading(false);
             });
-    }
+    };
     // useEffect(() => {
     // // let thumb, subtitle;
-        
+
     // }, [])
     return (
         <IonApp>
             <IonContent className="ion-padding">
+                <div className="heading">IRONY</div>
                 <IonGrid>
                     <IonRow className="ion-align-items-center">
                         <IonCol className="ion-text-center">
-                            <IonButton onClick={()=> getImages() } color="primary">
-                                <IonIcon slot="start" icon={alertOutline} />
-                                
-                            </IonButton>
+                            {" "}
+                            <IonButton
+                                onClick={() => getImages(1)}
+                                disabled={isLoading ? true : false}
+                                color="light"
+                            >
+                                <IonIcon icon={arrowBackOutline} />
+                            </IonButton>{" "}
+                            <IonButton
+                                disabled={isLoading ? true : false}
+                                onClick={() => getImages(-1)}
+                                color="light"
+                            >
+                                <IonIcon icon={arrowForwardOutline} />
+                            </IonButton>{" "}
                         </IonCol>
                     </IonRow>
                 </IonGrid>
-                <h2>{text}</h2>
-                {url?.map(el=>{
-                    return <div>
-                        <img src={el.urls.thumb} alt="" style={{width:"100%"}} />
-                        {/* <IonCardHeader>
-                            <IonCardSubtitle></IonCardSubtitle>
-                        </IonCardHeader> */}
-                </div>
+                {url?.map((el) => {
+                    return (
+                        <div style={{ marginBottom: "1rem" }}>
+                            <img
+                                src={el.urls.thumb}
+                                alt=""
+                                style={{ width: "100%" }}
+                            />
+                        </div>
+                    );
                 })}
-                
+                {url && url?.length > 0 ? (
+                    <IonGrid>
+                        <IonRow className="ion-align-items-center">
+                            <IonCol className="ion-text-center">
+                                {" "}
+                                <IonButton
+                                    onClick={() => getImages(1)}
+                                    disabled={isLoading ? true : false}
+                                    color="light"
+                                >
+                                    <IonIcon icon={arrowBackOutline} />
+                                </IonButton>{" "}
+                                <IonButton
+                                    disabled={isLoading ? true : false}
+                                    onClick={() => getImages(-1)}
+                                    color="light"
+                                >
+                                    <IonIcon icon={arrowForwardOutline} />
+                                </IonButton>{" "}
+                            </IonCol>
+                        </IonRow>
+                    </IonGrid>
+                ) : null}
             </IonContent>
         </IonApp>
     );

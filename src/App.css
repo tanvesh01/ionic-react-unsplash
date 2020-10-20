@@ -1,0 +1,15 @@
+@font-face {
+    font-family: play;
+    src: url(./Play-Heavy.otf);
+}
+
+ion-content {
+    --background: #ccc url("./download.jpeg") no-repeat center center / cover;
+}
+
+.heading {
+    font-family: play;
+    text-align: center;
+    color: #e3b4bc;
+    font-size: 5rem;
+}
