@@ -35,7 +35,7 @@ const App: React.FC = () => {
     const [count, setCount] = useState<number>(1);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const unsplash = new Unsplash({
-        accessKey: "JIQRCSRMQCe0JISYi1KtI0uDJqg0MCAGnC6w5C78Co0",
+        accessKey: "",
     });
     const getImages = (i: number) => {
         setIsLoading(true);
@@ -95,7 +95,7 @@ const App: React.FC = () => {
                     return (
                         <div style={{ marginBottom: "1rem" }}>
                             <img
-                                src={el.urls.thumb}
+                                src={el.urls.small}
                                 alt=""
                                 style={{ width: "100%" }}
                             />
